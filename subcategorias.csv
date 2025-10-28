@@ -1,0 +1,27 @@
+Categoría,Subcategoría,Tipo
+Alimentacion,Supermercado,Personal
+Alimentacion,Restaurante,Personal
+Alimentacion,Comida Fuera,Personal
+Alimentacion,Golosinas,Personal
+Servicios,Telefono,Personal
+Servicios,Electricidad,Personal
+Servicios,Agua,Personal
+Servicios,Internet,Personal
+Servicios,Netflix,Personal
+Servicios,Claude,Personal
+Servicios,Console Cloude,Personal
+Servicios,Apple Music,Personal
+Servicios,iCloud,Personal
+Servicios,Microsoft OneDrive,Personal
+Servicios,Suscripción digital,Personal
+Transporte,Uber/Taxi,Personal
+Transporte,Gasolina,Personal
+Transporte,Fletes,Personal
+Ingreso,Salario Favarcia,Personal
+Ingreso,Salario Tecnorotulos,Personal
+Ingreso,Otros,Personal
+Finanzas,Pago tarjeta,Negocio
+Finanzas,Pago tarjeta Ana,Personal
+Transferencias internas,Préstamo personal a negocio,Personal
+Transferencias internas,Préstamo negocio a personal,Negocio
+

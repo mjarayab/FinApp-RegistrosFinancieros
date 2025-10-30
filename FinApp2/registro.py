@@ -1,19 +1,41 @@
 import streamlit as st
 import pandas as pd
+import sqlite3
 from utils import cargar_subcategorias, cargar_cuentas
 
 st.set_page_config(page_title="Registro", layout="wide")
 st.title("📝 Registro de Transacciones")
 
+# Cargar listas
 subcategorias = cargar_subcategorias()
 cuentas = cargar_cuentas()
 
-# Extraer listas únicas
 lista_cuentas = [c["nombre"] for c in cuentas]
 lista_categorias = sorted(set([s["categoria"] for s in subcategorias]))
 lista_subcategorias = sorted(set([s["subcategoria"] for s in subcategorias]))
 lista_tipos = ["Ingreso", "Gasto"]
 lista_uso = ["Personal", "Negocio"]
+
+# Conexión a SQLite
+def conectar_db():
+    conn = sqlite3.connect("data/finapp.db")
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS transacciones (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            fecha TEXT,
+            tipo TEXT,
+            cuenta TEXT,
+            categoria TEXT,
+            subcategoria TEXT,
+            monto REAL,
+            descripcion TEXT,
+            proyecto TEXT,
+            uso TEXT
+        )
+    """)
+    conn.commit()
+    return conn
 
 with st.form("formulario_transaccion"):
     st.subheader("➕ Nueva transacción")
@@ -31,8 +53,21 @@ with st.form("formulario_transaccion"):
     submitted = st.form_submit_button("Guardar")
 
     if submitted:
-        nueva = {
-            "Fecha": pd.to_datetime(fecha),
+        conn = conectar_db()
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO transacciones (fecha, tipo, cuenta, categoria, subcategoria, monto, descripcion, proyecto, uso)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            fecha.strftime("%Y-%m-%d"), tipo, cuenta, categoria, subcategoria,
+            monto, descripcion, proyecto, uso
+        ))
+        conn.commit()
+        conn.close()
+
+        st.success("✅ Transacción guardada en la base de datos")
+        st.dataframe(pd.DataFrame([{
+            "Fecha": fecha,
             "Tipo": tipo,
             "Cuenta": cuenta,
             "Categoría": categoria,
@@ -40,8 +75,5 @@ with st.form("formulario_transaccion"):
             "Monto": monto,
             "Descripción": descripcion,
             "Proyecto": proyecto,
-            "Personal_Negocio": uso
-        }
-
-        st.success("✅ Transacción registrada")
-        st.dataframe(pd.DataFrame([nueva]))
+            "Uso": uso
+        }]))

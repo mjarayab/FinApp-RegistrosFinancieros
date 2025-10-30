@@ -1,15 +1,12 @@
 import streamlit as st
 import pandas as pd
-from utils import cargar_transacciones, cargar_subcategorias, cargar_cuentas
+from utils_db import cargar_transacciones_db as cargar_transacciones  # ← cambio aquí
 
 st.set_page_config(page_title="FinApp2", layout="wide")
 st.title("📊 FinApp2 — Finanzas Personales y de Negocio")
 
-# Cargar datos
+# Cargar datos desde SQLite
 transacciones = cargar_transacciones()
-subcategorias = cargar_subcategorias()
-cuentas = cargar_cuentas()
-
 if transacciones.empty:
     st.warning("No se pudieron cargar las transacciones.")
     st.stop()

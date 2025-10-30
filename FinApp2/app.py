@@ -7,7 +7,8 @@ st.title("📊 Panel financiero")
 
 # --- Cargar datos ---
 df = cargar_transacciones_db()
-df["Fecha"] = pd.to_datetime(df["Fecha"], errors="coerce")
+df.columns = df.columns.str.strip().str.lower()  # Normaliza encabezados
+df["fecha"] = pd.to_datetime(df["fecha"], errors="coerce")
 
 # --- Panel de filtros estilo Quicken ---
 with st.sidebar:
@@ -16,7 +17,8 @@ with st.sidebar:
     uso = st.selectbox("Tipo de uso", ["Personal", "Negocio"], index=0)
 
     cuentas = cargar_cuentas_db()
-    cuentas_filtradas = [c["nombre"] for c in cuentas if c["uso"] == uso]
+    df_cuentas = pd.DataFrame(cuentas)
+    cuentas_filtradas = df_cuentas[df_cuentas["uso"] == uso]["nombre"].tolist()
     cuenta = st.selectbox("Cuenta", ["Todas"] + cuentas_filtradas)
 
     subcats = cargar_subcategorias_db()
@@ -27,12 +29,12 @@ with st.sidebar:
     subcat_opciones = df_sub[df_sub["categoria"] == categoria]["subcategoria"].tolist() if categoria != "Todas" else []
     subcategoria = st.selectbox("Subcategoría", ["Todas"] + subcat_opciones)
 
-    fecha_inicio = st.date_input("Desde", value=df["Fecha"].min())
-    fecha_fin = st.date_input("Hasta", value=df["Fecha"].max())
+    fecha_inicio = st.date_input("Desde", value=df["fecha"].min())
+    fecha_fin = st.date_input("Hasta", value=df["fecha"].max())
 
 # --- Aplicar filtros ---
 df_filtrado = df[df["uso"] == uso]
-df_filtrado = df_filtrado[(df_filtrado["Fecha"] >= pd.to_datetime(fecha_inicio)) & (df_filtrado["Fecha"] <= pd.to_datetime(fecha_fin))]
+df_filtrado = df_filtrado[(df_filtrado["fecha"] >= pd.to_datetime(fecha_inicio)) & (df_filtrado["fecha"] <= pd.to_datetime(fecha_fin))]
 
 if cuenta != "Todas":
     df_filtrado = df_filtrado[df_filtrado["cuenta"] == cuenta]
@@ -46,5 +48,8 @@ st.subheader("📄 Transacciones filtradas")
 st.dataframe(df_filtrado, use_container_width=True)
 
 st.subheader("📈 Resumen por categoría")
-resumen = df_filtrado.groupby("categoria")["monto"].sum().reset_index()
-st.bar_chart(resumen.set_index("categoria"))
+if not df_filtrado.empty:
+    resumen = df_filtrado.groupby("categoria")["monto"].sum().reset_index()
+    st.bar_chart(resumen.set_index("categoria"))
+else:
+    st.info("No hay transacciones que coincidan con los filtros seleccionados.")

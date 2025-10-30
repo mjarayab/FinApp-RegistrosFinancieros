@@ -1,12 +1,12 @@
 import streamlit as st
 import pandas as pd
-from utils import cargar_cuentas, cargar_subcategorias
+from utils_db import cargar_cuentas_db, cargar_subcategorias_db  # ← cambio aquí
 
 st.set_page_config(page_title="Configuración", layout="wide")
 st.title("⚙️ Configuración de FinApp2")
 
 st.subheader("🏦 Cuentas registradas")
-cuentas = cargar_cuentas()
+cuentas = cargar_cuentas_db()
 df_cuentas = pd.DataFrame(cuentas)
 st.dataframe(df_cuentas, use_container_width=True)
 
@@ -31,7 +31,7 @@ with st.expander("➕ Agregar nueva cuenta"):
         })
 
 st.subheader("📂 Subcategorías registradas")
-subcategorias = cargar_subcategorias()
+subcategorias = cargar_subcategorias_db()
 df_sub = pd.DataFrame(subcategorias)
 st.dataframe(df_sub, use_container_width=True)
 

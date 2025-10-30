@@ -50,17 +50,45 @@ if subcategoria != "Todas":
 st.subheader("📄 Transacciones filtradas")
 st.dataframe(df_filtrado, use_container_width=True)
 
-# --- Gráfico con valores negativos ---
-st.subheader("📈 Resumen por categoría (incluye negativos)")
+# --- Resumen por categoría ---
+st.subheader("📋 Resumen por categoría")
 if not df_filtrado.empty:
     resumen = df_filtrado.groupby("categoria")["monto"].sum().reset_index()
+    st.dataframe(resumen, use_container_width=True)
+
+    # --- Gráfico de barras por categoría ---
+    st.subheader("📈 Gráfico de montos por categoría")
     fig, ax = plt.subplots()
     ax.bar(resumen["categoria"], resumen["monto"], color=["green" if x >= 0 else "red" for x in resumen["monto"]])
     ax.axhline(0, color="gray", linewidth=0.8)
     ax.set_ylabel("Monto total")
     ax.set_xlabel("Categoría")
-    ax.set_title("Resumen por categoría")
+    ax.set_title("Montos por categoría")
     plt.xticks(rotation=45, ha="right")
     st.pyplot(fig)
 else:
     st.info("No hay transacciones que coincidan con los filtros seleccionados.")
+
+# --- Resumen por cuenta y tipo ---
+st.subheader("🏦 Resumen por cuenta y tipo de transacción")
+if not df_filtrado.empty:
+    resumen_cuentas = df_filtrado.groupby(["cuenta", "tipo"])["monto"].sum().unstack(fill_value=0)
+    resumen_cuentas["balance"] = resumen_cuentas.get("ingreso", 0) - resumen_cuentas.get("gasto", 0)
+    st.dataframe(resumen_cuentas, use_container_width=True)
+
+    # --- Gráfico de ingresos y gastos por cuenta ---
+    fig2, ax2 = plt.subplots()
+    cuentas = resumen_cuentas.index.tolist()
+    ingresos = resumen_cuentas.get("ingreso", pd.Series([0]*len(cuentas)))
+    gastos = resumen_cuentas.get("gasto", pd.Series([0]*len(cuentas)))
+
+    ax2.bar(cuentas, ingresos, label="Ingreso", color="green")
+    ax2.bar(cuentas, -gastos, label="Gasto", color="red")
+    ax2.axhline(0, color="gray", linewidth=0.8)
+    ax2.set_ylabel("Monto")
+    ax2.set_title("Ingresos y gastos por cuenta")
+    ax2.legend()
+    plt.xticks(rotation=45, ha="right")
+    st.pyplot(fig2)
+else:
+    st.info("No hay transacciones para mostrar resumen por cuenta.")

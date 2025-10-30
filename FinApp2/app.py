@@ -72,6 +72,8 @@ else:
 # --- Resumen por cuenta y tipo ---
 st.subheader("🏦 Resumen por cuenta y tipo de transacción")
 if not df_filtrado.empty:
+    df_filtrado["tipo"] = df_filtrado["tipo"].str.lower().str.strip()  # Normaliza tipo
+
     resumen_cuentas = df_filtrado.groupby(["cuenta", "tipo"])["monto"].sum().unstack(fill_value=0)
     resumen_cuentas["balance"] = resumen_cuentas.get("ingreso", 0) - resumen_cuentas.get("gasto", 0)
     st.dataframe(resumen_cuentas, use_container_width=True)
@@ -79,8 +81,8 @@ if not df_filtrado.empty:
     # --- Gráfico de ingresos y gastos por cuenta ---
     fig2, ax2 = plt.subplots()
     cuentas = resumen_cuentas.index.tolist()
-    ingresos = resumen_cuentas.get("ingreso", pd.Series([0]*len(cuentas)))
-    gastos = resumen_cuentas.get("gasto", pd.Series([0]*len(cuentas)))
+    ingresos = resumen_cuentas["ingreso"]
+    gastos = resumen_cuentas["gasto"]
 
     ax2.bar(cuentas, ingresos, label="Ingreso", color="green")
     ax2.bar(cuentas, -gastos, label="Gasto", color="red")

@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-from utils import cargar_transacciones
+from utils_db import cargar_transacciones_db as cargar_transacciones  # ← cambio aquí
 
 st.set_page_config(page_title="Dashboard", layout="wide")
 st.title("📈 Dashboard Financiero")

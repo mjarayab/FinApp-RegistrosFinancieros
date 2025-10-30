@@ -20,7 +20,7 @@ with st.expander("➕ Agregar nueva cuenta"):
     tipo = st.selectbox("Tipo", ["Efectivo", "Banco", "Tarjeta", "Crédito", "Otro"])
     saldo_inicial = st.number_input("Saldo inicial", step=100.0)
     moneda = st.selectbox("Moneda", ["CRC", "USD", "EUR"])
-    uso = st.selectbox("Uso", ["Personal", "Negocio"])
+    uso = st.selectbox("Uso", ["Personal", "Negocio"], key="uso_cuenta")
     notas = st.text_area("Notas (opcional)")
     guardar_cuenta = st.button("Guardar cuenta")
 
@@ -44,7 +44,7 @@ st.dataframe(df_sub, use_container_width=True)
 with st.expander("➕ Agregar nueva subcategoría"):
     categoria = st.text_input("Categoría")
     subcategoria = st.text_input("Subcategoría")
-    tipo = st.selectbox("Uso", ["Personal", "Negocio"])
+    tipo = st.selectbox("Uso", ["Personal", "Negocio"], key="uso_subcategoria")
     guardar_sub = st.button("Guardar subcategoría")
 
     if guardar_sub:

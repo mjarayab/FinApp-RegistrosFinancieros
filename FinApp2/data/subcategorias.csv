@@ -1,0 +1,103 @@
+Categoría,Subcategoría,Personal/Negocio
+Alimentación,Supermercado,Personal
+Alimentación,Comida fuera,Personal
+Alimentación,Café / Snacks,Personal
+Alimentación,Golosinas,Personal
+Servicios,Telefono,Personal
+Servicios,Agua,Personal
+Servicios,Electicidad,Personal
+Servicios,Internet,Personal
+Servicios,TV / Cable / Internet,Personal
+Servicios,Subscripciones Digitales,Personal
+Vivienda,Alquiler / Hipoteca,Personal
+Vivienda,Mantenimiento del hogar,Personal
+Vivienda,Seguro de vivienda,Personal
+Vivienda,Gas Cocina,Personal
+Vivienda,Decoración,Personal
+Vivienda,Muebles,Personal
+Vivienda,Herramientas,Personal
+Vivienda,Electrodomésticos,Personal
+Vivienda,Utensilios cocina,Personal
+Transporte,Gasolina,Personal
+Transporte,Mantenimiento del vehículo,Personal
+Transporte,Marchamo,Personal
+Transporte,Seguro de auto,Personal
+Transporte,Transporte público,Personal
+Salud,Seguro médico,Personal
+Salud,Medicamentos,Personal
+Salud,Consultas médicas,Personal
+Salud,Suplementos,Personal
+Salud,Gimnasio,Personal
+Salud,Dentista,Personal
+Familia,Matias,Personal
+Familia,Ana,Personal
+Familia,Otros,Personal
+Mascotas,Alimento,Personal
+Mascotas,Veterinario,Personal
+Mascotas,Otros,Personal
+Vestimenta,Ropa casual,Personal
+Vestimenta,Ropa formal,Personal
+Vestimenta,Calzado,Personal
+Vestimenta,Accesorios,Personal
+Remodelacion,Mano de obra,Personal
+Remodelacion,Materiales,Personal
+Remodelacion,Diseño / Arquitectura,Personal
+Remodelacion,Permisos / trámites,Personal
+Homelab,Hardware / Equipos,Personal
+Homelab,Software / Licencias,Personal
+Homelab,Suscripciones técnicas,Personal
+Homelab,Energía / Infraestructura,Personal
+Homelab,Formación / Cursos,Personal
+Homelab,Experimentación / Pruebas,Personal
+Fotografia,Cursos / Talleres,Personal
+Fotografia,Cámara / Lentes,Personal
+Fotografia,Accesorios / Equipos,Personal
+Fotografia,Reparación de equipo,Personal
+Fotografia,Software / Edición,Personal
+Fotografia,Salidas fotográficas,Personal
+Finanzas,Pago tarjeta,Personal
+Finanzas,Retiro efectivo,Personal
+Finanzas,Pago Prestamo,Personal
+Finanzas,Recibo Prestamo,Personal
+Finanzas,Pago Prestamo,Negocio
+Finanzas,Recibo Prestamo,Negocio
+Finanzas,Pago tarjeta,Negocio
+Finanzas,Ahorros,Personal
+Finanzas,Donaciones,Personal
+Ocio,Bar / Salidas,Personal
+Ocio,Fiesta,Personal
+Ocio,Drogas,Personal
+Ocio,Cine / Teatro / Concierto,Personal
+Ocio,Suscripciones,Personal
+Ocio,Libros / Música,Personal
+Ocio,Vacaciones,Personal
+Educación,Matrícula,Personal
+Educación,Libros / Materiales,Personal
+Educación,Cursos en línea,Personal
+Ingreso,Salario,Personal
+Ingreso,Otros,Personal
+Ingreso,Ingreso por ventas,Negocio
+Ingreso,Servicios prestados,Negocio
+Ingreso,Reparaciones,Negocio
+Ingreso,Mantenimiento,Negocio
+Gastos operativos,Materiales / Suministros,Negocio
+Gastos operativos,Contabilidad,Negocio
+Gastos operativos,Publicidad / Marketing,Negocio
+Gastos operativos,Software / Suscripciones,Negocio
+Gastos operativos,Educacion profecional,Negocio
+Gastos operativos,Servicios profesionales,Negocio
+Oficina,Alquiler oficina,Negocio
+Oficina,Internet / Teléfono,Negocio
+Oficina,Mobiliario / Equipo,Negocio
+Vehículo negocio,Gasolina,Negocio
+Vehículo negocio,Alquiler / Flete,Negocio
+Vehículo negocio,Marchamo,Negocio
+Vehículo negocio,Mantenimiento,Negocio
+Vehículo negocio,Seguro,Negocio
+Impuestos,IVA ventas,Negocio
+Impuestos,Renta negocio,Negocio
+Nómina,Salarios,Negocio
+Nómina,Bonificaciones,Negocio
+Nómina,Seguro de empleados,Negocio
+Subcontratos,Mano de obra,Negocio
+Subcontratos,Pago de servicios,Negocio

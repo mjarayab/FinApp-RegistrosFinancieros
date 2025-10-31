@@ -47,6 +47,25 @@ CREATE TABLE IF NOT EXISTS subcategorias (
 )
 """)
 
+# Insertar transacción de ejemplo
+cursor.execute("""
+INSERT INTO transacciones (fecha, tipo, cuenta, categoria, subcategoria, monto, descripcion, proyecto, uso)
+VALUES ('2025-10-30', 'Ingreso', 'Banco Nacional', 'Salario', 'Mensual', 1000.00, 'Pago octubre', 'Trabajo', 'Personal')
+""")
+
+# Insertar cuenta de ejemplo
+cursor.execute("""
+INSERT INTO cuentas (nombre, tipo, saldo_inicial, moneda, uso, notas)
+VALUES ('Banco Nacional', 'Corriente', 5000.00, 'CRC', 'Personal', 'Cuenta principal')
+""")
+
+# Insertar subcategoría de ejemplo
+cursor.execute("""
+INSERT INTO subcategorias (categoria, subcategoria, tipo)
+VALUES ('Salario', 'Mensual', 'Personal')
+""")
+
+# Guardar y cerrar
 conn.commit()
 conn.close()
-print("✅ Base de datos FinApp creada en data/finapp.db")
+print("✅ Base de datos FinApp creada en data/finapp.db con datos de ejemplo")

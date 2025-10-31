@@ -1,3 +1,61 @@
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import sqlite3
+from utils_db import cargar_transacciones_db, actualizar_transaccion_db
+
+st.set_page_config(page_title="FinApp", layout="wide")
+st.title("💰 FinApp - Panel de Transacciones")
+
+# Cargar datos
+transacciones = cargar_transacciones_db()
+if not transacciones:
+    st.warning("⚠️ No se cargaron transacciones desde la base de datos.")
+    st.stop()
+
+df = pd.DataFrame(transacciones)
+df["fecha"] = pd.to_datetime(df["fecha"])
+
+# Filtros
+st.sidebar.header("🔍 Filtros")
+
+fecha_inicio = st.sidebar.date_input("Desde", df["fecha"].min())
+fecha_fin = st.sidebar.date_input("Hasta", df["fecha"].max())
+
+tipo = st.sidebar.selectbox("Tipo", ["Todos"] + sorted(df["tipo"].unique()))
+cuenta = st.sidebar.selectbox("Cuenta", ["Todas"] + sorted(df["cuenta"].unique()))
+categoria = st.sidebar.selectbox("Categoría", ["Todas"] + sorted(df["categoria"].unique()))
+
+# Aplicar filtros
+filtradas = df[
+    (df["fecha"] >= pd.to_datetime(fecha_inicio)) &
+    (df["fecha"] <= pd.to_datetime(fecha_fin))
+]
+
+if tipo != "Todos":
+    filtradas = filtradas[filtradas["tipo"] == tipo]
+if cuenta != "Todas":
+    filtradas = filtradas[filtradas["cuenta"] == cuenta]
+if categoria != "Todas":
+    filtradas = filtradas[filtradas["categoria"] == categoria]
+
+# Tabla ordenada por ID
+st.subheader(f"📋 Transacciones filtradas ({len(filtradas)})")
+st.dataframe(filtradas.sort_values("id", ascending=True), use_container_width=True, hide_index=True)
+
+# Resumen por cuenta
+st.subheader("📊 Resumen por cuenta")
+resumen = filtradas.groupby(["cuenta", "tipo"])["monto"].sum().unstack(fill_value=0)
+resumen["Balance"] = resumen.get("Ingreso", 0) - resumen.get("Gasto", 0)
+st.dataframe(resumen, use_container_width=True)
+
+# Gráfico de ingresos vs gastos
+st.subheader("📈 Ingresos vs Gastos")
+grafico = filtradas.groupby(["fecha", "tipo"])["monto"].sum().reset_index()
+fig = px.bar(grafico, x="fecha", y="monto", color="tipo", barmode="group", title="Ingresos vs Gastos por fecha")
+st.plotly_chart(fig, use_container_width=True)
+
+# Panel de edición
 st.subheader("✏️ Editar transacción")
 
 opciones = [f"{row['id']}: {row['descripcion']} ({row['fecha'].strftime('%d %b %Y')})" for _, row in filtradas.iterrows()]
@@ -35,7 +93,6 @@ if opciones:
         st.success("✅ Transacción actualizada correctamente")
 
     if st.button("🗑️ Eliminar transacción"):
-        import sqlite3
         conn = sqlite3.connect("data/finapp.db")
         cursor = conn.cursor()
         cursor.execute("DELETE FROM transacciones WHERE id = ?", (transaccion_id,))
